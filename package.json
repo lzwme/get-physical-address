@@ -1,0 +1,87 @@
+{
+  "name": "@lzwme/get-physical-address",
+  "version": "1.0.0",
+  "description": "Try get the physical address(hardware MAC address) of the hosts network interfaces. Filter the virtual machine network card, VPN virtual network card, etc., and return the real MAC address information of the physical network card.",
+  "main": "build/main/index.js",
+  "typings": "build/main/index.d.ts",
+  "module": "build/module/index.js",
+  "license": "MIT",
+  "repository": "https://github.com/lzwme/get-physical-address.git",
+  "author": {
+    "name": "renxia",
+    "email": "lzwy0820@qq.com",
+    "url": "https://lzw.me"
+  },
+  "private": false,
+  "engines": {
+    "node": ">=12"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "keywords": [
+    "mac",
+    "mac-address",
+    "physical-address",
+    "visual-mac",
+    "physical",
+    "hardware",
+    "network interfaces",
+    "network card"
+  ],
+  "bin": {
+    "gmac": "bin/cli.js"
+  },
+  "scripts": {
+    "dev": "tsc -w",
+    "start": "npm run watch",
+    "build": "run-s clean && run-p build:*",
+    "build:main": "tsc -p tsconfig.json",
+    "build:module": "tsc -p tsconfig.module.json",
+    "fix": "run-s fix:*",
+    "fix:prettier": "prettier \"src/**/*.ts\" --write",
+    "fix:lint": "eslint src --ext .ts --fix",
+    "test": "run-s test:*",
+    "test:lint": "eslint src --ext .ts",
+    "test:prettier": "prettier \"src/**/*.ts\" --list-different",
+    "test:unit": "npm run cov",
+    "watch": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit -- --watch\"",
+    "watch:build": "tsc -p tsconfig.json -w",
+    "watch:test": "jest --watch",
+    "cov": "jest --coverage --silent",
+    "cov:html": "jest --coverage --silent --reporter=html",
+    "version": "standard-version",
+    "prepare-release": "run-s clean build test version",
+    "release": "run-s build",
+    "clean": "node scripts/rmdir.mjs ./build"
+  },
+  "optionalDependencies": {
+    "iconv-lite": "*"
+  },
+  "devDependencies": {
+    "@jest/core": "^27",
+    "@lzwme/fed-lint-helper": "^1.5.1",
+    "@swc/core": "^1.2.174",
+    "@swc/jest": "^0.2.20",
+    "@types/eslint": "^8.4.1",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^17.0.30",
+    "@typescript-eslint/eslint-plugin": "^5.21.0",
+    "@typescript-eslint/parser": "^5.21.0",
+    "console-log-colors": "^0.2.3",
+    "eslint": "^8.14.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-jest": "^26.1.5",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-unicorn": "^42.0.0",
+    "husky": "^7.0.4",
+    "jest": "^27",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.6.2",
+    "standard-version": "^9.3.2",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.4"
+  },
+  "packageManager": "pnpm@7.0.0"
+}

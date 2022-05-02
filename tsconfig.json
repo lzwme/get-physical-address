@@ -1,0 +1,33 @@
+{
+  "ts-node": {
+    "transpileOnly": true
+  },
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "baseUrl": ".",
+    "rootDir": "src",
+    "skipLibCheck": true,
+    "outDir": "build/main",
+    "sourceMap": false,
+    "noImplicitThis": true,
+    "noImplicitAny": false,
+    "module": "commonjs",
+    "target": "es2018",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "declaration": true,
+    "resolveJsonModule": true,
+    "pretty": true,
+    "lib": ["ESNext"],
+    "typeRoots": ["./typings", "./node_modules/@types"]
+  },
+  "exclude": ["dist", "build", "**/node_modules/*", "src/__test__"],
+  "include": ["src"],
+  "compileOnSave": false
+}

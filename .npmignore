@@ -1,0 +1,42 @@
+# source
+src
+**/*.spec.*
+test
+test-cases
+scripts
+README_zh-CN.MD
+
+# build dist
+build/docs
+coverage
+.nyc_output
+*.log
+npm-debug.log
+
+# manager
+package-lock.json
+yarn.lock
+yarn-error.log
+pnpm-lock.yaml
+.pnpm-debug.log
+
+# config
+publish.bat
+.github
+.vscode
+.husky
+.circleci
+tsconfig.json
+tsconfig.module.json
+tsconfig.eslint.json
+jest.config.js
+jest.config.ts
+.travis.yml
+.gitlab-ci.yml
+.editorconfig
+.eslintrc.js
+.eslintrc.json
+.prettierignore
+.prettierrc
+.grs.config.js
+.flh.config.js

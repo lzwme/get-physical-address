@@ -1,0 +1,22 @@
+
+# build dist
+.DS_Store
+.nyc_output
+*.log
+/release/
+/debug/
+/dist/
+coverage
+build
+
+# manager
+package-lock.json
+yarn.lock
+yarn-error.log
+pnpm-lock.yaml
+.pnpm-debug.log
+
+node_modules
+.husky/post-commit
+# .flh.config.js
+.grs.config.js
