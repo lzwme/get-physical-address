@@ -27,9 +27,7 @@ publish.bat
 .vscode
 .husky
 .circleci
-tsconfig.json
-tsconfig.module.json
-tsconfig.eslint.json
+tsconfig.*
 jest.config.*
 .travis.yml
 .gitlab-ci.yml

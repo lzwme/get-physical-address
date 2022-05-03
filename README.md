@@ -11,7 +11,7 @@
 [![GitHub stars][stars-badge]][stars-url]
 ![license MIT](https://img.shields.io/github/license/lzwme/asmd-calc)
 
-[简体中文](./README_zh-CN.md)
+[简体中文](./.github/README_zh-CN.md)
 
 Try get the physical address(hardware MAC address) of the hosts network interfaces. Filter the virtual machine network card, VPN virtual network card, etc., and return the real MAC address information of the physical network card.
 
