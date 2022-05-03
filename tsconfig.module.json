@@ -1,8 +1,17 @@
 {
   "extends": "./tsconfig",
   "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "build/types",
+    "emitDeclarationOnly": false,
     "outDir": "build/module",
     "target": "esnext",
     "module": "esnext"
-  }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "node_modules/**",
+    "__test__",
+    "src/**/*.spec.ts"
+  ]
 }

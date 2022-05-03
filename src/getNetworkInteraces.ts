@@ -1,8 +1,8 @@
-import os from 'os';
+import { networkInterfaces, type NetworkInterfaceInfo } from 'os';
 import { getNetworkIFacesInfoByWmic } from './getIFacesByExec';
 import { isZeroMac, hasMutiMac, logDebug } from './utils';
 
-function ifacesSort(list: os.NetworkInterfaceInfo[]) {
+function ifacesSort(list: NetworkInterfaceInfo[]) {
   return list.sort((a, b) => {
     if (a.internal !== b.internal) return a.internal ? 1 : -1;
     if (isZeroMac(a.mac) !== isZeroMac(b.mac)) return isZeroMac(a.mac) ? 1 : -1;
@@ -12,8 +12,8 @@ function ifacesSort(list: os.NetworkInterfaceInfo[]) {
 
 /** get all networkInterfaces and sort by some rules */
 export function getAllNetworkIFaces() {
-  const nif = os.networkInterfaces();
-  const list: os.NetworkInterfaceInfo[] = [];
+  const nif = networkInterfaces();
+  const list: NetworkInterfaceInfo[] = [];
 
   // en0 - mac, eth3 - linux, Ethernet - windows
   const highPriorityIfaces = /^((en|eth)\d+|ethernet)$/i;
@@ -40,10 +40,10 @@ export function getAllNetworkIFaces() {
 }
 
 export async function getNetworkIFaces(iface?: string, family?: 'IPv4' | 'IPv6') {
-  let list: os.NetworkInterfaceInfo[] = [];
+  let list: NetworkInterfaceInfo[] = [];
 
   if (iface) {
-    const nif = os.networkInterfaces();
+    const nif = networkInterfaces();
 
     if (nif[iface]) {
       list = nif[iface];

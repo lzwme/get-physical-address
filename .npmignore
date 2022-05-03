@@ -21,6 +21,7 @@ pnpm-lock.yaml
 .pnpm-debug.log
 
 # config
+.gitattributes
 publish.bat
 .github
 .vscode
@@ -29,8 +30,7 @@ publish.bat
 tsconfig.json
 tsconfig.module.json
 tsconfig.eslint.json
-jest.config.js
-jest.config.ts
+jest.config.*
 .travis.yml
 .gitlab-ci.yml
 .editorconfig

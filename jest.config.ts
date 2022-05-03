@@ -1,9 +1,7 @@
 // @ts-check
-import type { Config } from '@jest/types';
-import path from 'path';
 
 /** @type {import('@jest/types').Config.InitialOptions } */
-const config: Config.InitialOptions = {
+const config = {
   cache: true,
   //   preset: 'ts-jest',
   //   globals: {
@@ -27,6 +25,7 @@ const config: Config.InitialOptions = {
   testMatch: ['<rootDir>/src/__test__/*.spec.ts'],
   coveragePathIgnorePatterns: ['/node_modules/', 'src/cli.ts', 'src/index.ts', 'src/__test__'],
   collectCoverageFrom: ['src/**/!(*.d).ts'],
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   maxWorkers: require('os').cpus().length,
   // watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
 };

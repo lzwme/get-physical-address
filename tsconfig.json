@@ -21,13 +21,12 @@
     "allowJs": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "declaration": true,
     "resolveJsonModule": true,
     "pretty": true,
     "lib": ["ESNext"],
-    "typeRoots": ["./typings", "./node_modules/@types"]
+    "typeRoots": ["./node_modules/@types"]
   },
-  "exclude": ["dist", "build", "**/node_modules/*", "src/__test__"],
-  "include": ["src"],
+  "exclude": ["**/node_modules/*"],
+  "include": ["src/**/*.ts"],
   "compileOnSave": false
 }
