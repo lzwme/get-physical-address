@@ -109,14 +109,14 @@ export const ifacesMock = {
 
 export const ipconfigStdout = [
   `Windows IP Configuration`,
-  `    Host Name . . . . . . . . . . . . : PCNAME`, // 【域中计算机名、主机名】
-  `    Primary Dns Suffix . . . . . . . :`, // 【主 DNS 后缀】
-  `    Node Type . . . . . . . . . . . . : Unknown`, // 【节点类型】
-  `    IP Routing Enabled. . . . . . . . : Yes`, // 【IP路由服务是否启用】
-  `    WINS Proxy Enabled. . . . . . . . : No`, // 【WINS代理服务是否启用 】
+  `    Host Name . . . . . . . . . . . . : PCNAME`, // 域中计算机名、主机名
+  `    Primary Dns Suffix . . . . . . . :`, // 主 DNS 后缀
+  `    Node Type . . . . . . . . . . . . : Unknown`, // 节点类型
+  `    IP Routing Enabled. . . . . . . . : Yes`, // IP路由服务是否启用
+  `    WINS Proxy Enabled. . . . . . . . : No`, // WINS代理服务是否启用
   `   `,
   `Ethernet adapter:`, // 本地连接
-  `    Connection-specific DNS Suffix :`, // 【连接特定的DNS后缀】
+  `    Connection-specific DNS Suffix :`,
   `    Description . . . . . . . . . . . : Realtek RTL8168/8111 PCI-E Gigabi`,
   `    Physical Address. . . . . . . . . : ${ifacesMock.en0[1].mac.replace(/:/g, '-').toUpperCase()}`,
   `    DHCP Enabled. . . . . . . . . . . : No`,

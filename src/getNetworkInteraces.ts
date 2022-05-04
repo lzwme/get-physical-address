@@ -2,6 +2,7 @@ import { networkInterfaces, type NetworkInterfaceInfo } from 'os';
 import { getNetworkIFacesInfoByWmic } from './getIFacesByExec';
 import { isZeroMac, hasMutiMac, logDebug } from './utils';
 
+/** sort by: !internal > !zeroMac(mac) > (todo: desc for visual) > family=IPv4 */
 function ifacesSort(list: NetworkInterfaceInfo[]) {
   return list.sort((a, b) => {
     if (a.internal !== b.internal) return a.internal ? 1 : -1;
@@ -59,18 +60,19 @@ export async function getNetworkIFaces(iface?: string, family?: 'IPv4' | 'IPv6')
 
   if (hasMutiMac(list)) {
     // see https://standards-oui.ieee.org/oui/oui.txt
-    const virtualMacPrefix = [
+    const virtualMacPrefix = new Set([
       '00:05:69', // vmware1
       '00:0c:29', // vmware2
       '00:50:56', // vmware3
+      '00:1c:14', // vmware
       '00:1c:42', // parallels1
       '02:00:4c', // Microsoft Loopback Adapter (微软回环网卡)
       '00:03:ff', // microsoft virtual pc
       '00:0f:4b', // virtual iron 4
       '00:16:3e', // red hat xen , oracle vm , xen source, novell xen
       '08:00:27', // virtualbox
-    ];
-    list = list.filter(d => !virtualMacPrefix.some(mac => d.mac.toLowerCase().startsWith(mac)));
+    ]);
+    list = list.filter(d => !virtualMacPrefix.has(d.mac.toLowerCase().slice(0, 8)));
   }
 
   // filter by desc for windows

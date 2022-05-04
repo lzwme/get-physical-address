@@ -31,7 +31,8 @@ export function formatMac(mac: string) {
   return mac.trim().toLowerCase().replace(/-/g, ':');
 }
 
-export function hasMutiMac(list: NetworkInterfaceInfo[]) {
+export function hasMutiMac(list: NetworkInterfaceInfo[], filter?: (mac: string) => boolean) {
   if (!list || list.length === 0) return false;
-  return new Set(list.map(d => d.mac)).size > 1;
+  if (typeof filter !== 'function') filter = isMac;
+  return new Set(list.map(d => d.mac).filter(mac => filter(mac))).size > 1;
 }
