@@ -11,7 +11,7 @@ async function start(argv = process.argv.slice(2)) {
             process.env.DEBUG = '*';
         if (argv.includes('--all')) {
             console.log('getAllMac:', getAllMac());
-            getAllPhysicsMac.then(list => console.log('getAllPhysicsMac:', list));
+            getAllPhysicsMac().then(list => console.log('getAllPhysicsMac:', list));
             return;
         }
         const index = argv.indexOf('--one');
