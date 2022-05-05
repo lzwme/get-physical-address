@@ -27,6 +27,7 @@
     "gmac": "bin/cli.js"
   },
   "scripts": {
+    "postinstall": "husky install",
     "start": "npm run watch",
     "build": "run-s clean && run-p build:*",
     "build:main": "tsc -p tsconfig.json",
@@ -48,8 +49,8 @@
     "doc:json": "typedoc src/ --exclude **/*.spec.ts --json build/docs/typedoc.json --tsconfig tsconfig.module.json",
     "version": "standard-version",
     "clean": "node scripts/rmdir.mjs ./build",
-    "dist": "run-s build doc:html",
-    "release": "run-s test dist version"
+    "release": "run-s test build doc:html",
+    "release-version": "run-s release version"
   },
   "engines": {
     "node": ">=12"
