@@ -5,11 +5,13 @@
 [![build status](https://github.com/lzwme/get-physical-address/actions/workflows/node-ci.yml/badge.svg?branch=main)](https://github.com/lzwme/get-physical-address/actions/workflows/node-ci.yml)
 [![NPM version][npm-badge]][npm-url]
 [![node version][node-badge]][node-url]
+[![license MIT](https://img.shields.io/github/license/lzwme/get-physical-address)](https://github.com/lzwme/get-physical-address)
+
 [![npm download][download-badge]][download-url]
 [![GitHub issues][issues-badge]][issues-url]
 [![GitHub forks][forks-badge]][forks-url]
 [![GitHub stars][stars-badge]][stars-url]
-![license MIT](https://img.shields.io/github/license/lzwme/asmd-calc)
+
 
 [简体中文](./.github/README_zh-CN.md)
 
