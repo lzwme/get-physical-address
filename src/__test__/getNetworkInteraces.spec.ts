@@ -1,13 +1,19 @@
 import { isValidMac } from '../utils';
-import { ifacesMock, ipconfigStdout, wmicNicStdout } from './testData.mock';
+import { ifacesMock, wmicNicStdout, ipconfigStdout } from './testData.mock';
 import { getNetworkIFaceOne, getNetworkIFaces } from '../getNetworkInteraces';
 import { getNetworkIFacesInfoByIpconfig, getNetworkIFacesInfoByWmic } from '../getIFacesByExec';
 
-jest.mock('os', () => {
-  return {
-    networkInterfaces: () => ifacesMock,
-  };
-});
+jest.mock('os', () => ({
+  networkInterfaces: () => ifacesMock,
+}));
+jest.mock('child_process', () => ({
+  exec(cmd, _options, callback: (...a) => void) {
+    callback('error for test', cmd.startsWith('wmic') ? wmicNicStdout : Buffer.from(ipconfigStdout));
+  },
+  execSync(cmd: string) {
+    return cmd.startsWith('wmic') ? wmicNicStdout : ipconfigStdout;
+  },
+}));
 
 let platform = 'win32';
 jest.mock('process', () => {
@@ -18,24 +24,13 @@ jest.mock('process', () => {
   };
 });
 
-jest.mock('child_process', () => {
-  return {
-    exec(cmd, _options, callback: (...a) => void) {
-      callback('error for test', cmd.startsWith('wmic') ? wmicNicStdout : Buffer.from(ipconfigStdout));
-    },
-    execSync(cmd: string) {
-      return cmd.startsWith('wmic') ? wmicNicStdout : ipconfigStdout;
-    },
-  };
-});
-
-beforeAll(() => {
-  console.debug = () => void 0;
-  console.error = () => void 0;
-  process.env.DEBUG = '*';
-});
-
 describe('getIFacesByExec', () => {
+  beforeAll(() => {
+    console.debug = () => void 0;
+    console.error = () => void 0;
+    process.env.DEBUG = '*';
+  });
+
   it('getNetworkIFacesInfoByIpconfig', async () => {
     platform = 'linux';
     let info = await getNetworkIFacesInfoByIpconfig();

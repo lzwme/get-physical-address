@@ -1,14 +1,34 @@
 import { getAllMac, getAllPhysicsMac, getMac } from '../getMac';
 import { isValidMac } from '../utils';
-import { ifacesMock } from './testData.mock';
+import { ifacesMock, wmicNicStdout, ipconfigStdout } from './testData.mock';
 
-jest.mock('os', () => {
+jest.mock('os', () => ({
+  networkInterfaces: () => ifacesMock,
+}));
+jest.mock('child_process', () => ({
+  exec(cmd, _options, callback: (...a) => void) {
+    callback('error for test', cmd.startsWith('wmic') ? wmicNicStdout : Buffer.from(ipconfigStdout));
+  },
+  execSync(cmd: string) {
+    return cmd.startsWith('wmic') ? wmicNicStdout : ipconfigStdout;
+  },
+}));
+
+jest.mock('process', () => {
   return {
-    networkInterfaces: () => ifacesMock,
+    get platform() {
+      return 'win32';
+    },
   };
 });
 
 describe('getMac.ts', () => {
+  beforeAll(() => {
+    console.debug = () => void 0;
+    console.error = () => void 0;
+    process.env.DEBUG = '*';
+  });
+
   it('getAllMac', () => {
     const list = getAllMac();
     expect(Array.isArray(list)).toBeTruthy();

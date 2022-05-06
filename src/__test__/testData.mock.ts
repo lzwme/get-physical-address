@@ -165,6 +165,7 @@ export const ipconfigStdout = [
                                        fec0:0:0:ffff::3%1
    TCPIP 上的 NetBIOS  . . . . . . . : 已启用`,
 ].join('\n');
+
 export const wmicNicStdout = [
   `MACAddress          Name                              `,
   `${ifacesMock.en0[1].mac}   Realtek PCIe FE Family Controller `,
@@ -172,9 +173,3 @@ export const wmicNicStdout = [
   `${ifacesMock.vmware[0].mac}   Visual Adpter`,
   `${ifacesMock.vmware[1].mac}   Visual Vmware Adpter 0`,
 ].join('\n');
-
-jest.mock('os', () => {
-  return {
-    networkInterfaces: () => ifacesMock,
-  };
-});
