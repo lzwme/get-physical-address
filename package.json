@@ -27,7 +27,7 @@
     "gmac": "bin/cli.js"
   },
   "scripts": {
-    "postinstall": "husky install",
+    "prepare": "husky install",
     "start": "npm run watch",
     "build": "run-s clean && run-p build:*",
     "build:main": "tsc -p tsconfig.json",
