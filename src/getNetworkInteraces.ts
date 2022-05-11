@@ -1,22 +1,39 @@
 import { networkInterfaces, type NetworkInterfaceInfo } from 'os';
 import { getNetworkIFacesInfoByWmic } from './getIFacesByExec';
-import { isZeroMac, hasMutiMac, logDebug } from './utils';
+import { isZeroMac, hasMutiMac, logDebug, isVirtualMac } from './utils';
 
-/** sort by: !internal > !zeroMac(mac) > (todo: desc for visual) > family=IPv4 */
+/** sort by: !internal > !zeroMac(mac) > desc for visual > family=IPv4 */
 function ifacesSort(list: NetworkInterfaceInfo[]) {
   return list.sort((a, b) => {
     if (a.internal !== b.internal) return a.internal ? 1 : -1;
     if (isZeroMac(a.mac) !== isZeroMac(b.mac)) return isZeroMac(a.mac) ? 1 : -1;
+
+    const isVirtualA = isVirtualMac(a.mac);
+    const isVirtualB = isVirtualMac(b.mac);
+    if (isVirtualA !== isVirtualB) return isVirtualA ? 1 : -1;
+
     if (a.family !== b.family) return a.family === 'IPv6' ? 1 : -1;
   });
 }
 
+function getNif() {
+  const nif = networkInterfaces();
+
+  for (const key in nif) {
+    if (key.includes('以太网')) {
+      nif[key.replace('以太网', 'ethernet')] = nif[key];
+      delete nif[key];
+    }
+  }
+  return nif;
+}
+
 /** get all networkInterfaces and sort by some rules */
 export function getAllNetworkIFaces() {
-  const nif = networkInterfaces();
+  const nif = getNif();
   const list: NetworkInterfaceInfo[] = [];
 
-  // en0 - mac, eth3 - linux, Ethernet - windows
+  // en0 - mac, eth3 - linux, ethernet - windows
   const highPriorityIfaces = /^((en|eth)\d+|ethernet)$/i;
   const lowPriorityIfaces = /^((lo|vboxnet)\d+)$/i;
   const ifaces = Object.keys(nif).sort((a, b) => {
@@ -44,7 +61,7 @@ export async function getNetworkIFaces(iface?: string, family?: 'IPv4' | 'IPv6')
   let list: NetworkInterfaceInfo[] = [];
 
   if (iface) {
-    const nif = networkInterfaces();
+    const nif = getNif();
 
     if (nif[iface]) {
       list = nif[iface];
@@ -57,23 +74,7 @@ export async function getNetworkIFaces(iface?: string, family?: 'IPv4' | 'IPv6')
   list = getAllNetworkIFaces().filter(item => !item.internal && !isZeroMac(item.mac) && (!family || item.family === family));
 
   if (hasMutiMac(list)) list = list.filter(d => d.address);
-
-  if (hasMutiMac(list)) {
-    // see https://standards-oui.ieee.org/oui/oui.txt
-    const virtualMacPrefix = new Set([
-      '00:05:69', // vmware1
-      '00:0c:29', // vmware2
-      '00:50:56', // vmware3
-      '00:1c:14', // vmware
-      '00:1c:42', // parallels1
-      '02:00:4c', // Microsoft Loopback Adapter (微软回环网卡)
-      '00:03:ff', // microsoft virtual pc
-      '00:0f:4b', // virtual iron 4
-      '00:16:3e', // red hat xen , oracle vm , xen source, novell xen
-      '08:00:27', // virtualbox
-    ]);
-    list = list.filter(d => !virtualMacPrefix.has(d.mac.toLowerCase().slice(0, 8)));
-  }
+  if (hasMutiMac(list)) list = list.filter(d => !isVirtualMac(d.mac));
 
   // filter by desc for windows
   if (hasMutiMac(list)) {

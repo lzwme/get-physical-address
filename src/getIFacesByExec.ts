@@ -1,6 +1,7 @@
 import { exec, execSync, type ExecException, type ExecOptions } from 'child_process';
+import { ObjectEncodingOptions } from 'fs';
 import process from 'process';
-import { formatMac, hasMac, logDebug } from './utils';
+import { formatMac, logDebug } from './utils';
 
 export interface IpconfigNIFItem {
   desc?: string;
@@ -19,11 +20,13 @@ export interface IpconfigNIFItem {
   isMain?: boolean;
 }
 
-function execPromisfy(cmd: string, options: ExecOptions = {}) {
+function execPromisfy(cmd: string, options: ObjectEncodingOptions & ExecOptions = {}, trimEmptyLine = false) {
   return new Promise<{ error: ExecException; stdout: string; stderr: string }>(resolve => {
     exec(cmd, { windowsHide: true, ...options }, (error, stdout, stderr) => {
       if (error) console.error('exec error:', `cmd: ${cmd}\n`, error.message || error);
-      resolve({ error, stdout: stdout.replace(/\n\n/g, '\n'), stderr });
+      stdout = stdout.replace(/\r+\n/g, '\n').trim();
+      if (trimEmptyLine) stdout = stdout.replace(/\n{2,}/g, '\n');
+      resolve({ error, stdout, stderr });
     });
   });
 }
@@ -36,7 +39,8 @@ export async function getNetworkIFacesInfoByIpconfig() {
     // https://docs.microsoft.com/zh-cn/windows-server/administration/windows-commands/ipconfig
     const iconv = await import('iconv-lite');
     const cmd = 'ipconfig /all';
-    // stdout = iconv.decode((await execPromisfy(cmd)).stdout, 'gbk').trim();
+    // const info = await execPromisfy(cmd, { encoding: 'binary' });
+    // stdout = iconv.decode(Buffer.from(info.stdout, 'binary'), 'gbk').trim();
     stdout = iconv.decode(execSync(cmd, { encoding: 'binary', windowsHide: true }) as never, 'gbk').trim();
 
     const keyMap = {
@@ -83,8 +87,6 @@ export async function getNetworkIFacesInfoByIpconfig() {
       item = {};
     };
 
-    logDebug(`[exec]cmd: ${cmd}. stdout:\n${stdout}`);
-
     for (let line of lines) {
       if (!line) continue;
       if (line.startsWith('  ')) {
@@ -110,33 +112,41 @@ export async function getNetworkIFacesInfoByIpconfig() {
     }
     setToConfig();
 
-    logDebug(`[exec]cmd: ${cmd}. getNetworkIFacesInfo:`, config);
+    logDebug(`[exec]cmd: ${cmd}. getNetworkIFacesInfo:`, stdout, config);
   }
 
-  return { config, stdout };
+  return { stdout, config };
 }
 
-// todo
 export async function getNetworkIFacesInfoByWmic() {
   const config: { [mac: string]: IpconfigNIFItem } = {};
   let stdout = '';
 
   if (process.platform === 'win32') {
-    const cmd = `wmic nic get Caption MACAddress`;
+    const keyMap = { MACAddress: 'mac', Description: 'desc' };
+    const cmd = `wmic nic get MACAddress,Description  /format:list`;
     const info = await execPromisfy(cmd);
+    const lines = info.stdout.split('\n').filter(d => d.includes('='));
+
     stdout = info.stdout;
-    if (stdout) {
-      for (const line of stdout.split('\n')) {
-        if (hasMac(line)) {
-          const mac = formatMac(line.slice(0, 18).trim());
-          const desc = line.slice(18).trim();
-          config[mac] = { mac, desc };
+    if (lines[0]) {
+      let item: Record<string, string> = {};
+
+      for (const line of lines) {
+        let [key, value] = line.split('=').map(d => d.trim());
+        key = keyMap[key] || key.toLowerCase();
+
+        if (item[key]) {
+          if (item.mac) config[item.mac] = item;
+          item = {};
         }
+        item[key] = value;
       }
+      if (item.mac) config[item.mac] = item;
     }
 
     if (stdout) logDebug(`[getNetworkIFacesInfoByWmic]`, stdout, config);
   }
 
-  return { config, stdout };
+  return { stdout, config };
 }

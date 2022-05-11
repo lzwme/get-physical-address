@@ -1,4 +1,4 @@
-import { formatMac, hasMac, hasMutiMac, isDebug, isMac, isValidMac, isZeroMac, logDebug } from '../utils';
+import { formatMac, hasMac, hasMutiMac, isDebug, isMac, isValidMac, isVirtualMac, isZeroMac, logDebug } from '../utils';
 import { ifacesMock } from './testData.mock';
 
 describe('utils', () => {
@@ -45,9 +45,16 @@ describe('utils', () => {
     for (const mac of ['', undefined, void 0, 'AB:34:56:78:90:01', '12-34-56-78-90-01']) expect(isZeroMac(mac)).toBeFalsy();
   });
 
+  it('isVirtualMac', () => {
+    for (const mac of ['08:00:27:78:90:01', '00-1C-14-78-90-01']) expect(isVirtualMac(mac)).toBeTruthy();
+    for (const mac of ['', undefined, '08:00:27:78', 'a0:01', 'AB:34:56:78:90:01', '00-00-00-00-00-00']) {
+      expect(isVirtualMac(mac)).toBeFalsy();
+    }
+  });
+
   it('isValidMac', () => {
     for (const mac of ['AB:34:56:78:90:01', '12-34-56-78-90-01']) expect(isValidMac(mac)).toBeTruthy();
-    for (const mac of ['', undefined, void 0, 'a0:01', '00:00:00:00:00:00', '00-00-00-00-00-00']) expect(isValidMac(mac)).toBeFalsy();
+    for (const mac of ['', undefined, 'a0:01', '00:00:00:00:00:00', '00-00-00-00-00-00']) expect(isValidMac(mac)).toBeFalsy();
   });
 
   it('formatMac', () => {

@@ -167,9 +167,8 @@ export const ipconfigStdout = [
 ].join('\n');
 
 export const wmicNicStdout = [
-  `MACAddress          Name                              `,
-  `${ifacesMock.en0[1].mac}   Realtek PCIe FE Family Controller `,
-  `1C:1B:B5:9B:FF:CC   Intel(R) Wireless-AC 9462   `,
-  `${ifacesMock.vmware[0].mac}   Visual Adpter`,
-  `${ifacesMock.vmware[1].mac}   Visual Vmware Adpter 0`,
+  `MACAddress=${ifacesMock.en0[1].mac}    \nName=Realtek PCIe FE Family Controller `,
+  `MACAddress=1C:1B:B5:9B:FF:CC   \nName=Intel(R) Wireless-AC 9462   `,
+  `MACAddress=${ifacesMock.vmware[0].mac}   \nName=Visual Adpter`,
+  `MACAddress=${ifacesMock.vmware[1].mac}   \nName=Visual Vmware Adpter 0`,
 ].join('\n');
