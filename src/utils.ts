@@ -19,9 +19,10 @@ export function hasMac(content: string) {
 }
 
 export function isZeroMac(mac: string) {
-  if (typeof mac !== 'string') return false;
-  return /^(0{1,2}[:-]){5}0{1,2}$/.test(mac.trim());
+  return /^(0{1,2}[:-]){5}0{1,2}$/.test(mac);
 }
+
+const invalidMacAddresses = new Set(['00:00:00:00:00:00', 'ff:ff:ff:ff:ff:ff', 'ac:de:48:00:11:22']);
 
 // see https://standards-oui.ieee.org/oui/oui.txt
 const virtualMacPrefix = new Set([
@@ -42,7 +43,7 @@ export function isVirtualMac(mac: string) {
 }
 
 export function isValidMac(mac: string) {
-  return !isZeroMac(mac) && isMac(mac);
+  return !invalidMacAddresses.has(formatMac(mac)) && isMac(mac);
 }
 
 export function formatMac(mac: string) {

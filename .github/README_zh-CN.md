@@ -53,7 +53,7 @@ getNetworkIFaceOne().then(item => console.log(`the MAC address is ${item.mac}, t
 更多 API 使用示例：
 
 ```ts
-import { isMac, hasMac, isValidMac, formatMac, getAllPhysicsMac } from '@lzwme/get-physical-address';
+import { isMac, hasMac, isValidMac, isVirtualMac, formatMac, getAllPhysicsMac } from '@lzwme/get-physical-address';
 
 
 isMac('aa-bb-cc-dd-ee-ff'); // true
@@ -61,6 +61,7 @@ hasMac('The MAC address is aa-bb-cc-dd-ee-ff'); // true
 isMac('00:00:00:00:00:00'); // true
 isValidMac('00:00:00:00:00:00'); // false
 formatMac('AA-BB-CC-DD-EE-FF'); // aa:bb:cc:dd:ee:ff
+isVirtualMac('00:0c:29:ae:ce'); // true
 
 getAllMac().then(list => console.log(list));
 getAllPhysicsMac('IPv4').then(list => console.log(list));
