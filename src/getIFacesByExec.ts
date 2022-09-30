@@ -41,7 +41,7 @@ export async function getNetworkIFacesInfoByIpconfig() {
     const cmd = 'ipconfig /all';
     // const info = await execPromisfy(cmd, { encoding: 'binary' });
     // stdout = iconv.decode(Buffer.from(info.stdout, 'binary'), 'gbk').trim();
-    stdout = iconv.decode(execSync(cmd, { encoding: 'binary', windowsHide: true }) as never, 'gbk').trim();
+    stdout = iconv.decode(execSync(cmd, { windowsHide: true }) as never, 'gbk').trim();
 
     const keyMap = {
       '连接特定的 DNS 后缀': 'dnsSuffix',
