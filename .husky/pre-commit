@@ -2,4 +2,5 @@
 . "$(dirname "$0")/_/husky.sh"
 
 npm run cov
-pnpm exec flh --eslint --tscheck --only-changes # --fix
+pnpm exec flh --eslint --tscheck --only-changes --fix
+pnpm exec flh --prettier --only-changes --fix
