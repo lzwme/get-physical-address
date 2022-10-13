@@ -5,9 +5,10 @@ test
 test-cases
 scripts
 README_zh-CN.MD
+CHANGELOG.md
 
 # build dist
-build/docs
+docs
 coverage
 .nyc_output
 *.log

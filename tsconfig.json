@@ -7,7 +7,7 @@
     "baseUrl": ".",
     "rootDir": "src",
     "skipLibCheck": true,
-    "outDir": "build/main",
+    "outDir": "cjs",
     "sourceMap": false,
     "noImplicitThis": true,
     "noImplicitAny": false,

@@ -8,6 +8,10 @@
 /dist/
 coverage
 build
+esm
+cjs
+docs
+types
 
 # manager
 package-lock.json

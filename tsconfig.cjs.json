@@ -2,14 +2,14 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "declaration": false,
-    "outDir": "build/main",
+    "outDir": "cjs",
     "target": "es2018",
     "module": "commonjs"
   },
   "include": ["src/**/*.ts"],
   "exclude": [
     "node_modules/**",
-    "__test__",
+    "src/**/*.mock.ts",
     "src/**/*.spec.ts"
   ]
 }

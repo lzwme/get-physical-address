@@ -2,16 +2,16 @@
   "extends": "./tsconfig",
   "compilerOptions": {
     "declaration": true,
-    "declarationDir": "build/types",
+    "declarationDir": "types",
     "emitDeclarationOnly": false,
-    "outDir": "build/module",
+    "outDir": "esm",
     "target": "esnext",
     "module": "esnext"
   },
   "include": ["src/**/*.ts"],
   "exclude": [
     "node_modules/**",
-    "__test__",
+    "src/**/*.mock.ts",
     "src/**/*.spec.ts"
   ]
 }
