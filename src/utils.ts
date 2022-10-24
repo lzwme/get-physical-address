@@ -36,6 +36,9 @@ const virtualMacPrefix = new Set([
   '00:0f:4b', // virtual iron 4
   '00:16:3e', // red hat xen , oracle vm , xen source, novell xen
   '08:00:27', // virtualbox
+  '0a:00:27', // virtualbox
+  '00:ff:78', // Sangfor
+  '00:ff:9d', // Sangfor
 ]);
 
 export function isVirtualMac(mac: string) {

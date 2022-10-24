@@ -1,7 +1,8 @@
 import { isValidMac } from '../utils';
 import { ifacesMock, wmicNicStdout, ipconfigStdout } from './testData.mock';
 import { getNetworkIFaceOne, getNetworkIFaces } from '../getNetworkInteraces';
-import { getNetworkIFacesInfoByIpconfig, getNetworkIFacesInfoByWmic } from '../getIFacesByExec';
+import { getNetworkIFacesInfoByWmic } from '../getIFacesByExec';
+import { getNetworkIFacesInfoByIpconfig } from '../getIFacesByIpconfig';
 
 jest.mock('os', () => ({
   networkInterfaces: () => ifacesMock,

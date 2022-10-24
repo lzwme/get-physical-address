@@ -77,16 +77,17 @@ export async function getNetworkIFaces(iface?: string, family?: 'IPv4' | 'IPv6')
   if (hasMutiMac(list)) list = list.filter(d => !isVirtualMac(d.mac));
 
   // filter by desc for windows
-  if (hasMutiMac(list)) {
-    const virtualDescList = ['virtual', ' vpn ', ' ssl ', 'tap-windows', 'hyper-v', 'km-test', 'microsoft loopback'];
-    // const info = await getNetworkIFacesInfoByIpconfig();
-    const info = await getNetworkIFacesInfoByWmic();
+  if (hasMutiMac(list) && process.platform === 'win32') {
+    const virtualDescList = ['virtual', ' vpn ', ' ssl ', 'tap-windows', 'hyper-v', 'km-test', 'microsoft loopback', 'sangfor '];
+    const info = await getNetworkIFacesInfoByWmic(); // await getNetworkIFacesInfoByIpconfig();
 
-    list = list.filter(item => {
-      if (!info.config[item.mac]) return true;
-      const desc = String(info.config[item.mac].desc).toLowerCase();
-      return !virtualDescList.some(d => desc.includes(d));
-    });
+    if (info.stdout) {
+      list = list.filter(item => {
+        if (!info.config[item.mac]) return true;
+        const desc = String(info.config[item.mac].desc).toLowerCase();
+        return !virtualDescList.some(d => desc.includes(d));
+      });
+    }
   }
 
   logDebug('[getNetworkIFaces]', list);
