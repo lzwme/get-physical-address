@@ -1,7 +1,7 @@
 import { exec, type ExecException, type ExecOptions } from 'child_process';
 import { ObjectEncodingOptions } from 'fs';
 import process from 'process';
-import { logDebug } from './utils';
+import { isVirtualMac, logDebug } from './utils';
 
 export interface IpconfigNIFItem {
   desc?: string;
@@ -50,7 +50,7 @@ export async function getNetworkIFacesInfoByWmic() {
         key = keyMap[key] || key.toLowerCase();
 
         if (item[key]) {
-          if (item.mac) config[item.mac] = item;
+          if (item.mac && (!config[item.mac] || !isVirtualMac('', item.desc))) config[item.mac] = item;
           item = {};
         }
         item[key] = value;

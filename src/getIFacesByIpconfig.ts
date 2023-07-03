@@ -1,6 +1,6 @@
 import { execSync } from 'child_process';
 import process from 'process';
-import { formatMac, logDebug } from './utils';
+import { formatMac, isVirtualMac, logDebug } from './utils';
 import { IpconfigNIFItem } from './getIFacesByExec';
 
 /**
@@ -57,7 +57,7 @@ export async function getNetworkIFacesInfoByIpconfig() {
     const setToConfig = () => {
       if (item.mac) {
         item.mac = formatMac(item.mac);
-        config[item.mac] = item;
+        if (!config[item.mac] || !isVirtualMac('', item.desc)) config[item.mac] = item;
       }
       item = {};
     };

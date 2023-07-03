@@ -41,8 +41,20 @@ const virtualMacPrefix = new Set([
   '00:ff:9d', // Sangfor
 ]);
 
-export function isVirtualMac(mac: string) {
-  return isMac(mac) && virtualMacPrefix.has(formatMac(mac).slice(0, 8));
+export function isVirtualMac(mac: string, desc?: string) {
+  let isVirtual = false;
+
+  if (mac) {
+    isVirtual = isMac(mac) && virtualMacPrefix.has(formatMac(mac).slice(0, 8));
+  }
+
+  if (desc && !isVirtual) {
+    const virtualDescList = ['virtual', ' vpn ', ' ssl ', 'tap-windows', 'hyper-v', 'km-test', 'microsoft loopback', 'sangfor '];
+    desc = String(desc).toLowerCase();
+    isVirtual = virtualDescList.some(d => desc.includes(d));
+  }
+
+  return isVirtual;
 }
 
 export function isValidMac(mac: string) {

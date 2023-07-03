@@ -38,11 +38,14 @@ yarn add @lzwme/get-physical-address
 Example：
 
 ```ts
-import { getNetworkIFaceOne, getMac } from '@lzwme/get-physical-address';
+import { getNetworkIFaceOne, getMac, isVirtualMac } from '@lzwme/get-physical-address';
+
+getNetworkIFaceOne().then(item => {
+  console.log(`isVirtualMac: ${isVirtualMac(item.mac, item.desc)}. the MAC address is ${item.mac}, the IP address is ${item.address}`)
+});
 
 getMac().then(mac => console.log(`the MAC address is ${mac}`));
 getMac('en0').then(mac => console.log(`the MAC address for en0 is ${mac}`));
-getNetworkIFaceOne().then(item => console.log(`the MAC address is ${item.mac}, the IP address is ${item.address}`));
 ```
 
 Example for some other API：

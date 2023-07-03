@@ -2,8 +2,10 @@ import { networkInterfaces, type NetworkInterfaceInfo } from 'os';
 import { getNetworkIFacesInfoByWmic } from './getIFacesByExec';
 import { isZeroMac, hasMutiMac, logDebug, isVirtualMac } from './utils';
 
+type NIFInfo = NetworkInterfaceInfo & { desc?: string };
+
 /** sort by: !internal > !zeroMac(mac) > desc for visual > family=IPv4 */
-function ifacesSort(list: NetworkInterfaceInfo[]) {
+function ifacesSort(list: NIFInfo[]) {
   return list.sort((a, b) => {
     if (a.internal !== b.internal) return a.internal ? 1 : -1;
     if (isZeroMac(a.mac) !== isZeroMac(b.mac)) return isZeroMac(a.mac) ? 1 : -1;
@@ -11,6 +13,8 @@ function ifacesSort(list: NetworkInterfaceInfo[]) {
     const isVirtualA = isVirtualMac(a.mac);
     const isVirtualB = isVirtualMac(b.mac);
     if (isVirtualA !== isVirtualB) return isVirtualA ? 1 : -1;
+
+    if (!a.address || !b.address) return a.address ? -1 : 1;
 
     if (a.family !== b.family) return a.family === 'IPv6' ? 1 : -1;
   });
@@ -58,7 +62,7 @@ export function getAllNetworkIFaces() {
 }
 
 export async function getNetworkIFaces(iface?: string, family?: 'IPv4' | 'IPv6') {
-  let list: NetworkInterfaceInfo[] = [];
+  let list: NIFInfo[] = [];
 
   if (iface) {
     const nif = getNif();
@@ -66,27 +70,29 @@ export async function getNetworkIFaces(iface?: string, family?: 'IPv4' | 'IPv6')
     if (nif[iface]) {
       list = nif[iface];
       if (family) list = list.filter(d => d.family === family);
-      if (list.length > 1) list = list.filter(d => !d.internal && !isZeroMac(d.mac));
+      if (list.length > 1) list = list.filter(d => !isZeroMac(d.mac));
     }
     return ifacesSort(list);
   }
 
-  list = getAllNetworkIFaces().filter(item => !item.internal && !isZeroMac(item.mac) && (!family || item.family === family));
+  list = getAllNetworkIFaces().filter(item => !isZeroMac(item.mac) && (!family || item.family === family));
 
-  if (hasMutiMac(list)) list = list.filter(d => d.address);
-  if (hasMutiMac(list)) list = list.filter(d => !isVirtualMac(d.mac));
+  // if (hasMutiMac(list)) list = list.filter(d => d.address);
+  // if (hasMutiMac(list)) list = list.filter(d => !isVirtualMac(d.mac));
 
   // filter by desc for windows
   if (hasMutiMac(list) && process.platform === 'win32') {
-    const virtualDescList = ['virtual', ' vpn ', ' ssl ', 'tap-windows', 'hyper-v', 'km-test', 'microsoft loopback', 'sangfor '];
     const info = await getNetworkIFacesInfoByWmic(); // await getNetworkIFacesInfoByIpconfig();
 
     if (info.stdout) {
-      list = list.filter(item => {
+      const r = list.filter(item => {
         if (!info.config[item.mac]) return true;
-        const desc = String(info.config[item.mac].desc).toLowerCase();
-        return !virtualDescList.some(d => desc.includes(d));
+        const desc = info.config[item.mac].desc;
+        item.desc = desc;
+        return !isVirtualMac('', desc);
       });
+
+      if (r.length > 0) list = r;
     }
   }
 

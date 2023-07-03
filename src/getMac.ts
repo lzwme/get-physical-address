@@ -1,5 +1,5 @@
 import { getNetworkIFaces, getNetworkIFaceOne, getAllNetworkIFaces } from './getNetworkInteraces';
-import { isZeroMac } from './utils';
+import { isVirtualMac, isZeroMac } from './utils';
 
 export function getAllMac() {
   const list = getAllNetworkIFaces();
@@ -13,7 +13,10 @@ export function getAllMac() {
 }
 
 export function getAllPhysicsMac(family?: 'IPv4' | 'IPv6') {
-  return getNetworkIFaces('', family).then(d => [...new Set(d.map(m => m.mac))]);
+  return getNetworkIFaces('', family).then(d => {
+    d = d.filter(m => !isVirtualMac(m.mac, m.desc));
+    return [...new Set(d.map(m => m.mac))];
+  });
 }
 
 export function getMac(iface?: string) {
