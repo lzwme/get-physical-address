@@ -1,6 +1,6 @@
 {
   "name": "@lzwme/get-physical-address",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Try get the physical address(hardware MAC address) of the hosts network interfaces. Filter the virtual machine network card, VPN virtual network card, etc., and return the real MAC address information of the physical network card.",
   "main": "cjs/index.js",
   "module": "esm/index.js",

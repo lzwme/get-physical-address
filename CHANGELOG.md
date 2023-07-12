@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.5](https://github.com/lzwme/get-physical-address/compare/v1.0.4...v1.0.5) (2023-07-12)
+
+### Bug Fixes
+
+- 修复 wmic 获取的 mac 地址未格式化导致的描述过滤失效问题(close [#1](https://github.com/lzwme/get-physical-address/issues/1)) ([3b618ff](https://github.com/lzwme/get-physical-address/commit/3b618ff89c943f4eb461f05bb44102572a53c330))
+
 ### [1.0.4](https://github.com/lzwme/get-physical-address/compare/v1.0.3...v1.0.4) (2023-07-03)
 
 ### [1.0.3](https://github.com/lzwme/get-physical-address/compare/v1.0.2...v1.0.3) (2022-10-25)
