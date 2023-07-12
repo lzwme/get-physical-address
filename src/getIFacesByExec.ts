@@ -1,7 +1,7 @@
 import { exec, type ExecException, type ExecOptions } from 'child_process';
 import { ObjectEncodingOptions } from 'fs';
 import process from 'process';
-import { isVirtualMac, logDebug } from './utils';
+import { formatMac, isVirtualMac, logDebug } from './utils';
 
 export interface IpconfigNIFItem {
   desc?: string;
@@ -44,18 +44,23 @@ export async function getNetworkIFacesInfoByWmic() {
     stdout = info.stdout;
     if (lines[0]) {
       let item: Record<string, string> = {};
+      const setToConfig = () => {
+        if (item.mac) {
+          item.mac = formatMac(item.mac);
+          if (!config[item.mac] || !isVirtualMac('', item.desc)) config[item.mac] = item;
+        }
+        item = {};
+      };
 
       for (const line of lines) {
         let [key, value] = line.split('=').map(d => d.trim());
         key = keyMap[key] || key.toLowerCase();
 
-        if (item[key]) {
-          if (item.mac && (!config[item.mac] || !isVirtualMac('', item.desc))) config[item.mac] = item;
-          item = {};
-        }
+        if (item[key]) setToConfig();
+
         item[key] = value;
       }
-      if (item.mac) config[item.mac] = item;
+      setToConfig();
     }
 
     if (stdout) logDebug(`[getNetworkIFacesInfoByWmic]`, stdout, config);

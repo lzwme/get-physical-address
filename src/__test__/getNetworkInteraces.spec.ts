@@ -39,7 +39,11 @@ describe('getIFacesByExec', () => {
 
     platform = 'win32';
     info = await getNetworkIFacesInfoByIpconfig();
+
     expect(Object.keys(info.config).length > 0).toBeTruthy();
+    // 应当转换为小写
+    expect('00:1d:7d:71:a8:d6' in info.config).toBeTruthy();
+    expect(info.stdout.includes('00-1D-7D-71-A8-D6')).toBeTruthy();
   });
 
   it('getNetworkIFacesInfoByWmic', async () => {
@@ -50,6 +54,9 @@ describe('getIFacesByExec', () => {
     platform = 'win32';
     info = await getNetworkIFacesInfoByWmic();
     expect(Object.keys(info.config).includes(ifacesMock.en0[1].mac)).toBeTruthy();
+    // 应当转换为小写
+    expect('1c:1b:b5:9b:ff:cc' in info.config).toBeTruthy();
+    expect(info.stdout.includes('1C:1B:B5:9B:FF:CC')).toBeTruthy();
   });
 });
 
