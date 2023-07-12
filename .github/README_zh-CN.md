@@ -46,7 +46,7 @@ yarn add @lzwme/get-physical-address
 import { getNetworkIFaceOne, getMac } from '@lzwme/get-physical-address';
 
 getNetworkIFaceOne().then(item => {
-  console.log(`isVirtualMac: ${isVirtualMac(item.mac, item.desc)}. the MAC address is ${item.mac}, the IP address is ${item.address}`)
+  console.log(`isVirtualMac: ${isVirtualMac(item.mac, item.desc)}. the MAC address is ${item.mac}, the IP address is ${item.address}`);
 });
 
 getMac().then(mac => console.log(`the MAC address is ${mac}`));
@@ -57,7 +57,6 @@ getMac('en0').then(mac => console.log(`the MAC address for en0 is ${mac}`));
 
 ```ts
 import { isMac, hasMac, isValidMac, isVirtualMac, formatMac, getAllPhysicsMac } from '@lzwme/get-physical-address';
-
 
 isMac('aa-bb-cc-dd-ee-ff'); // true
 hasMac('The MAC address is aa-bb-cc-dd-ee-ff'); // true
@@ -102,7 +101,7 @@ npm link
 yarn dev
 ```
 
-或者 [fork]() 本项目进行代码贡献。
+或者 [fork](https://github.com/lzwme/get-physical-address/network) 本项目进行代码贡献。
 
 **欢迎贡献想法与代码。**
 
@@ -111,7 +110,6 @@ yarn dev
 `@lzwme/get-physical-address` is released under the MIT license.
 
 该插件由[志文工作室](https://lzw.me)开发和维护。
-
 
 [stars-badge]: https://img.shields.io/github/stars/lzwme/get-physical-address.svg
 [stars-url]: https://github.com/lzwme/get-physical-address/stargazers
