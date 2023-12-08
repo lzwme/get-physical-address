@@ -2,7 +2,7 @@
  * @Author: renxia
  * @Date: 2023-12-08 09:31:39
  * @LastEditors: renxia
- * @LastEditTime: 2023-12-08 11:50:52
+ * @LastEditTime: 2023-12-08 11:58:38
  * @Description:
  */
 import { execSync } from 'child_process';
@@ -80,10 +80,9 @@ export async function getArpMacByIp(ip: string) {
 
 export async function getArpIpByMac(mac: string) {
   mac = formatMac(mac);
-  if (!mac) return '';
+  if (!mac) return [];
   const { table } = await getArpTable();
-  const item = table.find(d => d.mac.includes(mac));
-  return item ? item.ip : '';
+  return table.filter(d => d.mac.includes(mac)).map(d => d.ip);
 }
 
 // getArpTable().then(d => console.log(d.table));

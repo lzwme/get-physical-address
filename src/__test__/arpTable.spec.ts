@@ -2,12 +2,10 @@
  * @Author: renxia
  * @Date: 2023-12-08 10:11:08
  * @LastEditors: renxia
- * @LastEditTime: 2023-12-08 11:40:29
+ * @LastEditTime: 2023-12-08 11:59:50
  * @Description:
  */
-import { getArpTable } from '../arpTable';
-// import { getAllMac, getAllPhysicsMac, getMac } from '../getMac';
-// import { isValidMac } from '../utils';
+import { getArpIpByMac, getArpMacByIp, getArpTable } from '../arpTable';
 import { ifacesMock, arpANStdout } from './testData.mock';
 
 let platform: keyof typeof arpANStdout = 'win32';
@@ -54,5 +52,26 @@ describe('getArpTable.ts', () => {
 
     info = await getArpTable(arpANStdout.mac);
     expect(info.table.some(d => d.mac === '<incomplete>')).toBeFalsy();
+  });
+
+  it('getArpMacByIp', async () => {
+    platform = 'win32';
+    let mac = await getArpMacByIp('10.10.1.1');
+    expect(mac).toBe('dc:ef:80:37:aa:ff');
+
+    mac = await getArpMacByIp('10.10.1.0');
+    expect(mac).toBe('');
+  });
+
+  it('getArpIpByMac', async () => {
+    platform = 'win32';
+    let ip = await getArpIpByMac('dc-ef-80-37-aa-ff');
+    expect(ip[0]).toBe('10.10.1.1');
+
+    ip = await getArpIpByMac('dc-ef-80-37');
+    expect(ip.length > 1).toBeTruthy();
+
+    ip = await getArpIpByMac('dc:ef:80:37');
+    expect(ip[0]).toBe('10.10.1.1');
   });
 });
