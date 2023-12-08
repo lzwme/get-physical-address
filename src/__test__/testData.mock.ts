@@ -14,7 +14,7 @@ export const ifacesMock = {
       family: 'IPv6',
       mac: '00:00:00:00:00:00',
       internal: true,
-      cidr: '::1/128',
+      cidr: '::1/12',
       scopeid: 0,
     },
     {
@@ -172,3 +172,63 @@ export const wmicNicStdout = [
   `MACAddress=${ifacesMock.vmware[0].mac}   \nName=Visual Adpter`,
   `MACAddress=${ifacesMock.vmware[1].mac}   \nName=Visual Vmware Adpter 0`,
 ].join('\n');
+
+const arpAWinStdout = `接口: 10.10.1.108 --- 0xc
+Internet 地址         物理地址              类型
+10.10.1.1           dc-ef-80-37-aa-ff     动态
+10.10.1.2           dc-ef-80-37-cc-ff     动态
+10.10.1.3           00-00-ff-00-ff-ff     动态
+10.10.1.43          00-00-ff-00-ff-ff     动态
+10.10.1.112         00-00-ff-00-ff-ff     动态
+10.10.1.255         ff-ff-ff-ff-ff-ff     静态
+224.0.0.2             01-00-ff-00-ff-f2     静态
+224.0.0.22            01-00-ff-00-ff-f6     静态
+224.0.0.251           01-00-ff-00-ff-fb     静态
+224.0.0.252           01-00-ff-00-ff-fc     静态
+239.255.255.250       01-00-ff-7f-ff-fa     静态
+255.255.255.255       ff-ff-ff-ff-ff-ff     静态
+
+接口: 172.29.64.1 --- 0x15
+Internet 地址         物理地址              类型
+172.29.79.255         ff-ff-ff-ff-ff-ff     静态
+224.0.0.2             01-00-ff-00-ff-f2     静态
+224.0.0.22            01-00-ff-00-ff-f6     静态
+224.0.0.251           01-00-ff-00-ff-fb     静态
+224.0.0.252           01-00-ff-00-ff-fc     静态
+239.255.255.250       01-00-ff-7f-ff-ff     静态
+255.255.255.255       ff-ff-ff-ff-ff-ff     静态`;
+
+const arpANMacStdout = `? (10.10.2.2) at dc:ef:80:37:ff:ff on en1 ifscope [ethernet]
+? (10.10.2.3) at 0:0:5e:0:1:ff on en1 ifscope [ethernet]
+? (10.10.2.51) at a0:80:69:96:ff:ff on en1 ifscope [ethernet]
+? (10.10.2.54) at a4:cf:99:96:ff:ff on en1 ifscope [ethernet]
+? (10.10.2.96) at 3c:22:fb:52:ff:ff on en1 ifscope [ethernet]
+? (10.10.2.121) at 62:0:34:b8:ff:ff on en1 ifscope [ethernet]
+? (10.10.2.135) at 6c:b1:33:9c:ff:ff on en1 ifscope [ethernet]
+? (10.10.2.182) at 3c:6:30:0:ff:ff on en1 ifscope [ethernet]
+? (10.10.2.255) at ff:ff:ff:ff:ff:ff on en1 ifscope [ethernet]
+? (224.0.0.251) at 1:0:5e:0:0:ff on en1 ifscope permanent [ethernet]
+? (239.255.255.250) at 1:0:5e:7f:ff:ff on en1 ifscope permanent [ethernet]`;
+
+const arpANLinuxStdout = `? (10.12.11.2) at 70:79:b3:48:ff:ff [ether] on eno1
+? (172.17.125.49) at <incomplete> on docker0
+? (10.12.11.40) at 18:66:da:e8:ff:ff [ether] on eno1
+? (10.12.11.54) at 1c:98:ec:27:ff:ff [ether] on eno1
+? (172.17.0.2) at 02:42:ac:11:ff:ff [ether] on docker0
+? (172.17.12.1) at <incomplete> on docker0
+? (10.12.11.46) at 14:18:77:3c:ff:ff [ether] on eno1
+? (10.12.11.3) at 00:00:0c:9f:ff:ff [ether] on eno1
+? (10.12.11.41) at 18:66:da:e8:ff:ff [ether] on eno1
+? (10.12.11.55) at 1c:98:ec:27:ff:ff [ether] on eno1
+? (10.12.11.21) at 40:f2:e9:9d:ff:ff [ether] on eno1
+? (172.17.0.3) at 02:42:ac:11:ff:ff [ether] on docker0
+? (10.12.11.1) at 70:79:b3:48:ff:ff [ether] on eno1
+? (10.12.11.47) at 14:18:77:37:ff:ff [ether] on eno1
+? (10.12.11.59) at 94:18:82:6d:ff:ff [ether] on eno1
+? (10.12.11.239) at 00:0c:29:44:ff:ff [ether] on eno1`;
+
+export const arpANStdout = {
+  win32: arpAWinStdout,
+  mac: arpANMacStdout,
+  linux: arpANLinuxStdout,
+};

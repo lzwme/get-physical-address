@@ -12,7 +12,6 @@
 [![GitHub forks][forks-badge]][forks-url]
 [![GitHub stars][stars-badge]][stars-url]
 
-
 [简体中文](./.github/README_zh-CN.md)
 
 Try get the physical address(hardware MAC address) of the hosts network interfaces. Filter the virtual machine network card, VPN virtual network card, etc., and return the real MAC address information of the physical network card.
@@ -41,7 +40,7 @@ Example：
 import { getNetworkIFaceOne, getMac, isVirtualMac } from '@lzwme/get-physical-address';
 
 getNetworkIFaceOne().then(item => {
-  console.log(`isVirtualMac: ${isVirtualMac(item.mac, item.desc)}. the MAC address is ${item.mac}, the IP address is ${item.address}`)
+  console.log(`isVirtualMac: ${isVirtualMac(item.mac, item.desc)}. the MAC address is ${item.mac}, the IP address is ${item.address}`);
 });
 
 getMac().then(mac => console.log(`the MAC address is ${mac}`));
@@ -52,7 +51,6 @@ Example for some other API：
 
 ```ts
 import { isMac, hasMac, isValidMac, isVirtualMac, formatMac, getAllPhysicsMac } from '@lzwme/get-physical-address';
-
 
 isMac('aa-bb-cc-dd-ee-ff'); // true
 hasMac('The MAC address is aa-bb-cc-dd-ee-ff'); // true
@@ -78,6 +76,12 @@ getAllPhysicsMac('IPv4').then(list => console.log(list));
 - `getNetworkIFaces(iface?: string, family?: 'IPv4' | 'IPv6'): Promise<os.NetworkInterfaceInfo[]>`
 - `getNetworkIFaceOne(iface?: string): Promise<os.NetworkInterfaceInfoIPv4 | os.NetworkInterfaceInfoIPv6>`
 
+### `arpTable`
+
+- `getArpTable(arpSstdout?: string)`
+- `getArpMacByIp(ip: string)`
+- `getArpIpByMac(mac: string)`
+
 ### `utils`
 
 - `isMac(mac: string): boolean`
@@ -100,7 +104,6 @@ yarn dev
 `@lzwme/get-physical-address` is released under the MIT license.
 
 该插件由[志文工作室](https://lzw.me)开发和维护。
-
 
 [stars-badge]: https://img.shields.io/github/stars/lzwme/get-physical-address.svg
 [stars-url]: https://github.com/lzwme/get-physical-address/stargazers

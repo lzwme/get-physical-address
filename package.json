@@ -21,7 +21,10 @@
     "physical",
     "hardware",
     "network interfaces",
-    "network card"
+    "network card",
+    "arp",
+    "arp table",
+    "arp lookup"
   ],
   "bin": {
     "gmac": "bin/cli.js"

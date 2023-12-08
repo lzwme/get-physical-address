@@ -4,14 +4,8 @@
     "declaration": true,
     "declarationDir": "types",
     "emitDeclarationOnly": false,
-    "outDir": "esm",
-    "target": "esnext",
-    "module": "esnext"
+    "outDir": "esm"
   },
   "include": ["src/**/*.ts"],
-  "exclude": [
-    "node_modules/**",
-    "src/**/*.mock.ts",
-    "src/**/*.spec.ts"
-  ]
+  "exclude": ["node_modules/**", "src/**/*.mock.ts", "src/**/*.spec.ts"]
 }

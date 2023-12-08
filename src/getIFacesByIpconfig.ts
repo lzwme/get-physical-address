@@ -1,3 +1,10 @@
+/*
+ * @Author: renxia
+ * @Date: 2023-03-23 23:02:16
+ * @LastEditors: renxia
+ * @LastEditTime: 2023-12-08 09:43:26
+ * @Description:
+ */
 import { execSync } from 'child_process';
 import process from 'process';
 import { formatMac, isVirtualMac, logDebug } from './utils';
@@ -12,7 +19,7 @@ export async function getNetworkIFacesInfoByIpconfig() {
 
   if (process.platform === 'win32') {
     // https://docs.microsoft.com/zh-cn/windows-server/administration/windows-commands/ipconfig
-    const iconv = await import('iconv-lite');
+    const { default: iconv } = await import('iconv-lite');
     const cmd = 'ipconfig /all';
     // const info = await execPromisfy(cmd, { encoding: 'binary' });
     // stdout = iconv.decode(Buffer.from(info.stdout, 'binary'), 'gbk').trim();
