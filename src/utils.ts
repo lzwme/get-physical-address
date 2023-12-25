@@ -49,7 +49,17 @@ export function isVirtualMac(mac: string, desc?: string) {
   }
 
   if (desc && !isVirtual) {
-    const virtualDescList = ['virtual', ' vpn ', ' ssl ', 'tap-windows', 'hyper-v', 'km-test', 'microsoft loopback', 'sangfor '];
+    const virtualDescList = [
+      'virtual',
+      ' vpn ',
+      ' ssl ',
+      'tap-windows',
+      'hyper-v',
+      'vEthernet', // vEthernet (Default Switch)
+      'km-test',
+      'microsoft loopback',
+      'sangfor ',
+    ];
     desc = String(desc).toLowerCase();
     isVirtual = virtualDescList.some(d => desc.includes(d));
   }
