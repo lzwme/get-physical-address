@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/lzwme/get-physical-address/compare/v1.0.5...v1.1.0) (2023-12-25)
+
+
+### Features
+
+* 新增 getArpTable 方法 ([02fac9b](https://github.com/lzwme/get-physical-address/commit/02fac9bce34fadf4b503d6236a5a7c93e0c40d0c))
+
+
+### Bug Fixes
+
+* 新增 vEthernet 虚拟网卡关键字 ([0973735](https://github.com/lzwme/get-physical-address/commit/0973735a49d35ff32f6541c3ed6d950433273832))
+
 ### [1.0.5](https://github.com/lzwme/get-physical-address/compare/v1.0.4...v1.0.5) (2023-07-12)
 
 ### Bug Fixes
